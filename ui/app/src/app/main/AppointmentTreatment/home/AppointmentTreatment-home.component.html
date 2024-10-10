@@ -1,0 +1,49 @@
+<o-form-layout-manager attr="AppointmentTreatment" mode="tab" title="APPOINTMENTTREATMENT">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="AppointmentTreatmentTable" 
+            service="AppointmentTreatment" 
+            entity="AppointmentTreatment" 
+            title="APPOINTMENTTREATMENT"
+            keys="id"
+            columns="id;appointment_id;treatment_id" 
+            header-actions="R;D"
+            visible-columns="id;appointment_id;treatment_id"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="appointment_id" title="appointment_id">
+    <o-table-cell-renderer-service attr="appointment_id" 
+        service="Appointment" entity="AppointmentType" columns="id;id"
+        parent-keys="id:appointment_id"
+        value-column="id" keys="appointment_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="treatment_id" title="treatment_id">
+    <o-table-cell-renderer-service attr="treatment_id" 
+        service="Treatment" entity="TreatmentType" columns="id;name"
+        parent-keys="id:treatment_id"
+        value-column="name" keys="treatment_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

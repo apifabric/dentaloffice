@@ -1,0 +1,317 @@
+about:
+  date: October 10, 2024 12:09:26
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 9
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Appointment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dentist_id
+      required: true
+    - name: patient_id
+      required: true
+    - name: appointment_datetime
+      required: true
+    - name: notes
+    description: Table to store appointment details.
+    info_list: Table to store appointment details.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - appointment_id
+      name: AppointmentTreatmentList
+      resource: AppointmentTreatment
+    - direction: tomany
+      fks:
+      - appointment_id
+      name: PaymentList
+      resource: Payment
+    - direction: toone
+      fks:
+      - dentist_id
+      name: dentist
+      resource: Dentist
+    - direction: toone
+      fks:
+      - patient_id
+      name: patient
+      resource: Patient
+    type: Appointment
+    user_key: id
+  AppointmentTreatment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: appointment_id
+      required: true
+    - name: treatment_id
+      required: true
+    description: Table to associate treatments with appointments.
+    info_list: Table to associate treatments with appointments.
+    tab_groups:
+    - direction: toone
+      fks:
+      - appointment_id
+      name: appointment
+      resource: Appointment
+    - direction: toone
+      fks:
+      - treatment_id
+      name: treatment
+      resource: Treatment
+    type: AppointmentTreatment
+    user_key: id
+  Dentist:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: specialty
+    - name: id
+    description: Table to store dentist details.
+    info_list: Table to store dentist details.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - dentist_id
+      name: AppointmentList
+      resource: Appointment
+    type: Dentist
+    user_key: first_name
+  Insurance:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: id
+    description: Table to store insurance details.
+    info_list: Table to store insurance details.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - insurance_id
+      name: PatientInsuranceList
+      resource: PatientInsurance
+    type: Insurance
+    user_key: name
+  Inventory:
+    attributes:
+    - label: ' item_name*'
+      name: item_name
+      required: true
+      search: true
+      sort: true
+    - name: supplier_id
+      required: true
+    - name: quantity
+    - name: id
+    description: Table to manage dental supplies and tools inventory.
+    info_list: Table to manage dental supplies and tools inventory.
+    tab_groups:
+    - direction: toone
+      fks:
+      - supplier_id
+      name: supplier
+      resource: Supplier
+    type: Inventory
+    user_key: item_name
+  Patient:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: date_of_birth
+    - name: phone_number
+    - name: id
+    description: Table to store patient details.
+    info_list: Table to store patient details.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - patient_id
+      name: AppointmentList
+      resource: Appointment
+    - direction: tomany
+      fks:
+      - patient_id
+      name: PatientInsuranceList
+      resource: PatientInsurance
+    - direction: tomany
+      fks:
+      - patient_id
+      name: PrescriptionList
+      resource: Prescription
+    type: Patient
+    user_key: first_name
+  PatientInsurance:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: insurance_id
+      required: true
+    - name: patient_id
+      required: true
+    - name: policy_number
+    description: Table to associate patients with their insurance plans.
+    info_list: Table to associate patients with their insurance plans.
+    tab_groups:
+    - direction: toone
+      fks:
+      - insurance_id
+      name: insurance
+      resource: Insurance
+    - direction: toone
+      fks:
+      - patient_id
+      name: patient
+      resource: Patient
+    type: PatientInsurance
+    user_key: id
+  Payment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: appointment_id
+      required: true
+    - name: payment_date
+    - name: amount_paid
+    description: Table to record payment transactions.
+    info_list: Table to record payment transactions.
+    tab_groups:
+    - direction: toone
+      fks:
+      - appointment_id
+      name: appointment
+      resource: Appointment
+    type: Payment
+    user_key: id
+  Prescription:
+    attributes:
+    - label: ' medicine_name*'
+      name: medicine_name
+      required: true
+      search: true
+      sort: true
+    - name: patient_id
+      required: true
+    - name: dosage
+    - name: prescribed_date
+    - name: id
+    description: Table to store prescription details.
+    info_list: Table to store prescription details.
+    tab_groups:
+    - direction: toone
+      fks:
+      - patient_id
+      name: patient
+      resource: Patient
+    type: Prescription
+    user_key: medicine_name
+  Staff:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: role
+    - name: start_date
+    - name: id
+    description: Table to maintain staff information.
+    info_list: Table to maintain staff information.
+    type: Staff
+    user_key: name
+  Supplier:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: contact_number
+    - name: id
+    description: Table to store supplier details.
+    info_list: Table to store supplier details.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - supplier_id
+      name: InventoryList
+      resource: Inventory
+    type: Supplier
+    user_key: name
+  Treatment:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: cost
+    - name: id
+    description: Table to store treatment details.
+    info_list: Table to store treatment details.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - treatment_id
+      name: AppointmentTreatmentList
+      resource: AppointmentTreatment
+    type: Treatment
+    user_key: name
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

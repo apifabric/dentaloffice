@@ -1,0 +1,98 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Appointment {
+    id INTEGER
+    patient_id INTEGER
+    dentist_id INTEGER
+    appointment_datetime DATETIME
+    notes VARCHAR
+    }
+
+Table Dentist {
+    id INTEGER
+    first_name VARCHAR
+    last_name VARCHAR
+    specialty VARCHAR
+    }
+
+Table Patient {
+    id INTEGER
+    first_name VARCHAR
+    last_name VARCHAR
+    date_of_birth DATETIME
+    phone_number VARCHAR
+    }
+
+Table AppointmentTreatment {
+    id INTEGER
+    appointment_id INTEGER
+    treatment_id INTEGER
+    }
+
+Table Treatment {
+    id INTEGER
+    name VARCHAR
+    description VARCHAR
+    cost FLOAT
+    }
+
+Table Insurance {
+    id INTEGER
+    name VARCHAR
+    }
+
+Table Inventory {
+    id INTEGER
+    item_name VARCHAR
+    quantity INTEGER
+    supplier_id INTEGER
+    }
+
+Table Supplier {
+    id INTEGER
+    name VARCHAR
+    contact_number VARCHAR
+    }
+
+Table PatientInsurance {
+    id INTEGER
+    patient_id INTEGER
+    insurance_id INTEGER
+    policy_number VARCHAR
+    }
+
+Table Payment {
+    id INTEGER
+    appointment_id INTEGER
+    amount_paid FLOAT
+    payment_date DATETIME
+    }
+
+Table Prescription {
+    id INTEGER
+    patient_id INTEGER
+    medicine_name VARCHAR
+    dosage VARCHAR
+    prescribed_date DATETIME
+    }
+
+Table Staff {
+    id INTEGER
+    name VARCHAR
+    role VARCHAR
+    start_date DATETIME
+    }
+
+
+
+// Relationships
+    Ref: Appointment.(dentist_id) < Dentist.(id)
+    Ref: Appointment.(patient_id) < Patient.(id)
+    Ref: AppointmentTreatment.(appointment_id) < Appointment.(id)
+    Ref: AppointmentTreatment.(treatment_id) < Treatment.(id)
+    Ref: Inventory.(supplier_id) < Supplier.(id)
+    Ref: PatientInsurance.(insurance_id) < Insurance.(id)
+    Ref: PatientInsurance.(patient_id) < Patient.(id)
+    Ref: Payment.(appointment_id) < Appointment.(id)
+    Ref: Prescription.(patient_id) < Patient.(id)

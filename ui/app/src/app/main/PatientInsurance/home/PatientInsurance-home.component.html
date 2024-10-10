@@ -1,0 +1,51 @@
+<o-form-layout-manager attr="PatientInsurance" mode="tab" title="PATIENTINSURANCE">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="PatientInsuranceTable" 
+            service="PatientInsurance" 
+            entity="PatientInsurance" 
+            title="PATIENTINSURANCE"
+            keys="id"
+            columns="id;insurance_id;patient_id;policy_number" 
+            header-actions="R;D"
+            visible-columns="id;insurance_id;patient_id;policy_number"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="insurance_id" title="insurance_id">
+    <o-table-cell-renderer-service attr="insurance_id" 
+        service="Insurance" entity="InsuranceType" columns="id;name"
+        parent-keys="id:insurance_id"
+        value-column="name" keys="insurance_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="patient_id" title="patient_id">
+    <o-table-cell-renderer-service attr="patient_id" 
+        service="Patient" entity="PatientType" columns="id;first_name"
+        parent-keys="id:patient_id"
+        value-column="first_name" keys="patient_id"
+        visible-columns="first_name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #policy_number attr="policy_number" title="policy_number" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

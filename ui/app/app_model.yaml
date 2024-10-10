@@ -1,0 +1,489 @@
+about:
+  date: October 10, 2024 12:09:26
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Appointment:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: dentist_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: patient_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: appointment_datetime
+      required: true
+      template: date
+      type: DATETIME
+    - name: notes
+      template: text
+      type: VARCHAR
+    description: Table to store appointment details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store appointment details.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - appointment_id
+      name: AppointmentTreatmentList
+      resource: AppointmentTreatment
+    - direction: tomany
+      fks:
+      - appointment_id
+      name: PaymentList
+      resource: Payment
+    - direction: toone
+      fks:
+      - dentist_id
+      name: dentist
+      resource: Dentist
+    - direction: toone
+      fks:
+      - patient_id
+      name: patient
+      resource: Patient
+    type: Appointment
+  AppointmentTreatment:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: appointment_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: treatment_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table to associate treatments with appointments.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to associate treatments with appointments.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - appointment_id
+      name: appointment
+      resource: Appointment
+    - direction: toone
+      fks:
+      - treatment_id
+      name: treatment
+      resource: Treatment
+    type: AppointmentTreatment
+  Dentist:
+    columns:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: last_name
+      required: true
+      template: text
+      type: VARCHAR
+    - name: specialty
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store dentist details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: first_name
+    home_template: home_template.html
+    info_list: Table to store dentist details.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - dentist_id
+      name: AppointmentList
+      resource: Appointment
+    type: Dentist
+  Insurance:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store insurance details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table to store insurance details.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - insurance_id
+      name: PatientInsuranceList
+      resource: PatientInsurance
+    type: Insurance
+  Inventory:
+    columns:
+    - label: ' item_name*'
+      name: item_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: supplier_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: quantity
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to manage dental supplies and tools inventory.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: item_name
+    home_template: home_template.html
+    info_list: Table to manage dental supplies and tools inventory.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - supplier_id
+      name: supplier
+      resource: Supplier
+    type: Inventory
+  Patient:
+    columns:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: last_name
+      required: true
+      template: text
+      type: VARCHAR
+    - name: date_of_birth
+      template: date
+      type: DATETIME
+    - name: phone_number
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store patient details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: first_name
+    home_template: home_template.html
+    info_list: Table to store patient details.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - patient_id
+      name: AppointmentList
+      resource: Appointment
+    - direction: tomany
+      fks:
+      - patient_id
+      name: PatientInsuranceList
+      resource: PatientInsurance
+    - direction: tomany
+      fks:
+      - patient_id
+      name: PrescriptionList
+      resource: Prescription
+    type: Patient
+  PatientInsurance:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: insurance_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: patient_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: policy_number
+      template: text
+      type: VARCHAR
+    description: Table to associate patients with their insurance plans.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to associate patients with their insurance plans.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - insurance_id
+      name: insurance
+      resource: Insurance
+    - direction: toone
+      fks:
+      - patient_id
+      name: patient
+      resource: Patient
+    type: PatientInsurance
+  Payment:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: appointment_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: payment_date
+      template: date
+      type: DATETIME
+    - name: amount_paid
+      template: real
+      type: FLOAT
+    description: Table to record payment transactions.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to record payment transactions.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - appointment_id
+      name: appointment
+      resource: Appointment
+    type: Payment
+  Prescription:
+    columns:
+    - label: ' medicine_name*'
+      name: medicine_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: patient_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: dosage
+      template: text
+      type: VARCHAR
+    - name: prescribed_date
+      template: date
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store prescription details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: medicine_name
+    home_template: home_template.html
+    info_list: Table to store prescription details.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - patient_id
+      name: patient
+      resource: Patient
+    type: Prescription
+  Staff:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: role
+      template: text
+      type: VARCHAR
+    - name: start_date
+      template: date
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to maintain staff information.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table to maintain staff information.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: Staff
+  Supplier:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: contact_number
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store supplier details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table to store supplier details.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - supplier_id
+      name: InventoryList
+      resource: Inventory
+    type: Supplier
+  Treatment:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: VARCHAR
+    - name: cost
+      template: real
+      type: FLOAT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store treatment details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table to store treatment details.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - treatment_id
+      name: AppointmentTreatmentList
+      resource: AppointmentTreatment
+    type: Treatment
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false
